@@ -30,6 +30,7 @@ func printEntry(e *stashmeta.Entry) {
 	}
 }
 
+// go:fix inline
 // Push runs git stash push, then records kairos metadata for the new stash@{0}.
 func Push(repoTop string, message string, includeUntracked bool, pathspecs []string) error {
 	root := gitexec.RepoRoot(repoTop)

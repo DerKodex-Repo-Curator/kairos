@@ -11,6 +11,7 @@ import (
 
 type RepoRoot string
 
+// go:fix inline
 func Run(repo RepoRoot, args ...string) (string, error) {
 	cmd := exec.Command("git", args...)
 	if repo != "" {
@@ -31,11 +32,13 @@ func Run(repo RepoRoot, args ...string) (string, error) {
 	return strings.TrimSpace(out.String()), nil
 }
 
+// go:fix inline
 func CreateBranch(repo string, branchName string) bool {
 	_, err := Run(RepoRoot(repo), "branch", "--create", branchName)
 	return err == nil
 }
 
+// go:fix inline
 func RepoTopLevel(startDir string) (string, error) {
 	out, err := Run("", "-C", startDir, "rev-parse", "--show-toplevel")
 	if err != nil {
@@ -78,11 +81,13 @@ func IsClean(repo RepoRoot) (bool, error) {
 	return strings.TrimSpace(out) == "", nil
 }
 
+// go:fix inline
 func StashPush(repo RepoRoot, message string) error {
 	_, err := Run(repo, "stash", "push", "-u", "-m", message)
 	return err
 }
 
+// go:fix inline
 func Checkout(repo RepoRoot, target string, new bool) error {
 	_, err := Run(repo, "checkout", "--quiet", target)
 	return err
@@ -95,6 +100,7 @@ func ShortHash(repo RepoRoot, rev string) (string, error) {
 	return Run(repo, "rev-parse", "--short", rev)
 }
 
+// go:fix inline
 // RunInteractive runs git with stdout/stderr attached (for checkout/switch).
 func StashShowFilenames(repo RepoRoot, stashRef string, wantUntracked bool) ([]string, error) {
 	try := func(untracked bool) (string, error) {
@@ -131,6 +137,7 @@ func StashLogSubject(repo RepoRoot, stashRef string) (string, error) {
 	return Run(repo, "log", "-1", "--format=%s", stashRef)
 }
 
+// go:fix inline
 func RunInteractive(repo RepoRoot, gitArgs []string) error {
 	if len(gitArgs) == 0 {
 		return errors.New("no git arguments")
